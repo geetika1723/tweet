@@ -1,6 +1,7 @@
 <h1>Timeline</h1>
 
 <%= if @live_action in [:new, :edit] do %>
+<script src='https://kit.fontawesome.com/a076d05399.js' > </script>
   <.modal return_to={Routes.post_index_path(@socket, :index)}>
     <.live_component
       module={TweetWeb.PostLive.FormComponent}
@@ -14,10 +15,14 @@
 <% end %>
 
 
- <div id="posts">
+ <div id="posts" phx-update="prepend">
     <%= for post <- @posts do %>
-    <%= live_component @socket, TweetWeb.PostLive.PostComponent, id: post.id, post: post %>
+    <.live_component 
+      module={TweetWeb.PostLive.PostComponent} 
+      id={post.id} 
+      post={post} 
+    />
     <% end %>
  </div>
 
-<span><%= live_patch "New Post", to: Routes.post_index_path(@socket, :new) %></span>
+<span><%= live_patch "New Post", to: Routes.post_index_path(@socket, :new) %> </span>
